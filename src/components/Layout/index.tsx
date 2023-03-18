@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import Footer from 'components/Footer';
 import routes from 'routes';
 
 export default class Layout extends Component {
@@ -14,7 +15,7 @@ export default class Layout extends Component {
           ))}
         </header>
         <Outlet />
-        <footer>Footer</footer>
+        <Footer />
       </>
     );
   }
