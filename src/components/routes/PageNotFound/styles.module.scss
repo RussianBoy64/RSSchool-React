@@ -18,3 +18,13 @@
   font-size: 2rem;
   color: $primary-dark;
 }
+
+@media (max-width: 500px) {
+  .title {
+    font-size: 4rem;
+  }
+
+  .info {
+    font-size: 1.5rem;
+  }
+}
