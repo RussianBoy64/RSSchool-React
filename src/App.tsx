@@ -9,13 +9,13 @@ class App extends Component {
   render() {
     return (
       <div className={styles.wrapper}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
+        <Layout>
+          <Routes>
             {routes.map((route) => (
               <Route key={route.id} path={route.path} element={route.element} />
             ))}
-          </Route>
-        </Routes>
+          </Routes>
+        </Layout>
       </div>
     );
   }

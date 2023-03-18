@@ -1,20 +1,13 @@
 import { Component } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import Header from 'components/Header';
 import Footer from 'components/Footer';
-import routes from 'routes';
 
-export default class Layout extends Component {
+export default class Layout extends Component<{ children: React.ReactNode }> {
   render() {
     return (
       <>
-        <header>
-          {routes.map((route) => (
-            <Link to={route.path} key={route.id}>
-              {route.name}
-            </Link>
-          ))}
-        </header>
-        <Outlet />
+        <Header />
+        {this.props.children}
         <Footer />
       </>
     );
