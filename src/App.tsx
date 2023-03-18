@@ -8,13 +8,15 @@ import styles from './App.module.scss';
 class App extends Component {
   render() {
     return (
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          {routes.map((route) => (
-            <Route key={route.id} path={route.path} element={route.element} />
-          ))}
-        </Route>
-      </Routes>
+      <div className={styles.wrapper}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            {routes.map((route) => (
+              <Route key={route.id} path={route.path} element={route.element} />
+            ))}
+          </Route>
+        </Routes>
+      </div>
     );
   }
 }
