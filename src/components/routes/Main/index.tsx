@@ -3,6 +3,7 @@ import SearchBar from 'components/UI/SearchBar';
 import ProductCard from 'components/ProductCard';
 
 import styles from './styles.module.scss';
+import { spawn } from 'child_process';
 
 interface IProducts {
   limit: number;
@@ -88,12 +89,15 @@ export default class Main extends Component<unknown, IMainState> {
     return (
       <main className={styles.main}>
         <SearchBar searchValue={this.state.search} changeHandler={this.searchChangeHandler} />
-
-        <div className={styles.productList}>
-          {products.map((product) => (
-            <ProductCard product={product} key={product.id} />
-          ))}
-        </div>
+        {products.length ? (
+          <div className={styles.productList}>
+            {products.map((product) => (
+              <ProductCard product={product} key={product.id} />
+            ))}
+          </div>
+        ) : (
+          <p className={styles.notFound}>Products not found!</p>
+        )}
       </main>
     );
   }
