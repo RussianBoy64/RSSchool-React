@@ -1,9 +1,17 @@
 import { Component } from 'react';
 import SearchBar from 'components/UI/SearchBar';
+import ProductCard from 'components/ProductCard';
 
 import styles from './styles.module.scss';
 
-interface IProduct {
+interface IProducts {
+  limit: number;
+  products: IProduct[];
+  skip: number;
+  total: number;
+}
+
+export interface IProduct {
   id: number;
   title: string;
   description: string;
@@ -13,13 +21,14 @@ interface IProduct {
   stock: number;
   brand: string;
   category: string;
-  thumbnail: number;
+  thumbnail: string;
   images: string[];
 }
 
 interface IMainState {
   search: string;
-  products: IProduct | null;
+  products: IProduct[];
+  productsToSHow: IProduct[];
 }
 
 export default class Main extends Component<unknown, IMainState> {
@@ -27,7 +36,8 @@ export default class Main extends Component<unknown, IMainState> {
     super(props);
     this.state = {
       search: '',
-      products: null,
+      products: [],
+      productsToSHow: [],
     };
   }
 
@@ -35,27 +45,49 @@ export default class Main extends Component<unknown, IMainState> {
     this.setState({ ...this.state, search: event.target.value });
   };
 
-  async fetchProducts() {
-    await fetch('https://dummyjson.com/products/1')
+  async fetchProducts(): Promise<void> {
+    await fetch('https://dummyjson.com/products?limit=20')
       .then((res) => res.json())
-      .then((products) => this.setState({ products }));
+      .then((products: IProducts) => this.setState({ products: products.products }));
+  }
+
+  async getProductsFromStorage(productsJSON: string): Promise<void> {
+    const products = await JSON.parse(productsJSON);
+    this.setState({ ...this.state, products });
   }
 
   componentDidMount() {
     const search = localStorage.getItem('searchValue');
+    const products = localStorage.getItem('products');
+
     if (search) this.setState({ ...this.state, search });
-    this.fetchProducts();
+
+    if (!products) {
+      this.fetchProducts();
+    } else {
+      this.getProductsFromStorage(products);
+    }
   }
 
   componentWillUnmount() {
     localStorage.setItem('searchValue', this.state.search);
+
+    if (this.state.products.length) {
+      localStorage.setItem('products', JSON.stringify(this.state.products));
+    }
   }
 
   render() {
+    console.log(this.state.products);
     return (
       <main className={styles.main}>
         <SearchBar searchValue={this.state.search} changeHandler={this.searchChangeHandler} />
-        {/* {`${this.state.products?.brand}`} */}
+
+        <div className={styles.productList}>
+          {this.state.products.map((product) => (
+            <ProductCard product={product} key={product.id} />
+          ))}
+        </div>
       </main>
     );
   }

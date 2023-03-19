@@ -10,6 +10,7 @@
 .link {
   padding: 0.5rem 1rem;
   font-weight: 600;
+  white-space: nowrap;
   border-bottom: 1px solid transparent;
   transition: all 0.3s ease-in-out;
 
@@ -19,5 +20,15 @@
 
   &_active {
     color: $accent-dark;
+  }
+}
+
+@media (max-width: 500px) {
+  .navigation {
+    gap: 0.5rem;
+  }
+
+  .link {
+    padding: 0.5rem 0.5rem;
   }
 }

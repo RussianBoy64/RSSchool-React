@@ -1,0 +1,43 @@
+@import '../../styles/colors';
+
+.productCard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  min-width: 22%;
+  min-height: 150px;
+
+  &__thumbnail {
+    position: relative;
+    display: flex;
+    border: 2px solid $accent-dark;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+}
+
+.thumbnail {
+  &__control {
+    position: relative;
+    z-index: 100;
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  &List {
+    position: absolute;
+    display: flex;
+    min-width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+
+    &__item {
+      min-width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
+}
