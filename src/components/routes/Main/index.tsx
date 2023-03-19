@@ -65,6 +65,10 @@ export default class Main extends Component<unknown, IMainState> {
     } else {
       this.getProductsFromStorage(products);
     }
+
+    window.addEventListener('beforeunload', () =>
+      localStorage.setItem('searchValue', this.state.search)
+    );
   }
 
   componentWillUnmount() {
