@@ -28,7 +28,6 @@ export interface IProduct {
 interface IMainState {
   search: string;
   products: IProduct[];
-  productsToSHow: IProduct[];
 }
 
 export default class Main extends Component<unknown, IMainState> {
@@ -37,7 +36,6 @@ export default class Main extends Component<unknown, IMainState> {
     this.state = {
       search: '',
       products: [],
-      productsToSHow: [],
     };
   }
 
@@ -78,13 +76,21 @@ export default class Main extends Component<unknown, IMainState> {
   }
 
   render() {
-    console.log(this.state.products);
+    const { search } = this.state;
+    let { products } = this.state;
+
+    if (search) {
+      products = products.filter((product) =>
+        Object.values(product).join('').toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      );
+    }
+
     return (
       <main className={styles.main}>
         <SearchBar searchValue={this.state.search} changeHandler={this.searchChangeHandler} />
 
         <div className={styles.productList}>
-          {this.state.products.map((product) => (
+          {products.map((product) => (
             <ProductCard product={product} key={product.id} />
           ))}
         </div>
