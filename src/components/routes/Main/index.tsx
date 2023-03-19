@@ -42,7 +42,13 @@ export default class Main extends Component<unknown, IMainState> {
   }
 
   componentDidMount() {
+    const search = localStorage.getItem('searchValue');
+    if (search) this.setState({ ...this.state, search });
     this.fetchProducts();
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('searchValue', this.state.search);
   }
 
   render() {
