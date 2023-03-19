@@ -34,17 +34,15 @@ export default class ProductCard extends Component<IProductCardProps, IProductCa
   };
 
   render() {
-    const { images } = this.props.product;
+    const { title, description, price, stock, category, images } = this.props.product;
+    const thumbnailListStyle = { transform: `translateX(-${this.state.currentImage * 100}%)` };
 
     return (
       <div className={styles.productCard}>
         <div className={styles.productCard__thumbnail}>
           <div className={styles.thumbnail__control} onClick={this.showPrevImg} />
           <div className={styles.thumbnail__control} onClick={this.showNextImg} />
-          <div
-            className={styles.thumbnailList}
-            style={{ transform: `translateX(-${this.state.currentImage * 100}%)` }}
-          >
+          <div className={styles.thumbnailList} style={thumbnailListStyle}>
             {images.map((imageSrc, index) => {
               return (
                 <div
@@ -59,6 +57,13 @@ export default class ProductCard extends Component<IProductCardProps, IProductCa
             <div className={styles.thumbnailList__item} />
           </div>
           <ThumbnailPagination currentImage={this.state.currentImage} images={images} />
+        </div>
+        <div className={styles.description}>
+          <span className={styles.description__category}>{category}</span>
+          <span className={styles.description__title}>{title}</span>
+          <span className={styles.description__description}>{description}</span>
+          <span className={styles.description__price}>{price} $</span>
+          <span className={styles.description__stock}>Stock: {stock}</span>
         </div>
       </div>
     );
