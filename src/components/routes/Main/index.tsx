@@ -3,7 +3,6 @@ import SearchBar from 'components/UI/SearchBar';
 import ProductCard from 'components/ProductCard';
 
 import styles from './styles.module.scss';
-import { spawn } from 'child_process';
 
 interface IProducts {
   limit: number;
