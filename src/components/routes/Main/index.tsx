@@ -1,4 +1,7 @@
 import { Component } from 'react';
+import SearchBar from 'components/UI/SearchBar';
+
+import styles from './styles.module.scss';
 
 interface IProduct {
   id: number;
@@ -14,27 +17,40 @@ interface IProduct {
   images: string[];
 }
 
-interface IMainProps {
-  data: IProduct | null;
+interface IMainState {
+  search: string;
+  products: IProduct | null;
 }
 
-export default class Main extends Component<unknown, IMainProps> {
+export default class Main extends Component<unknown, IMainState> {
   constructor(props: unknown) {
     super(props);
-    this.state = { data: null };
+    this.state = {
+      search: '',
+      products: null,
+    };
   }
 
-  render() {
-    return <div>{`${this.state.data?.brand}`}</div>;
+  searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ ...this.state, search: event.target.value });
+  };
+
+  async fetchProducts() {
+    await fetch('https://dummyjson.com/products/1')
+      .then((res) => res.json())
+      .then((products) => this.setState({ products }));
   }
 
   componentDidMount() {
     this.fetchProducts();
   }
 
-  async fetchProducts() {
-    await fetch('https://dummyjson.com/products/1')
-      .then((res) => res.json())
-      .then((json) => this.setState({ data: json }));
+  render() {
+    return (
+      <main className={styles.main}>
+        <SearchBar searchValue={this.state.search} changeHandler={this.searchChangeHandler} />
+        {/* {`${this.state.products?.brand}`} */}
+      </main>
+    );
   }
 }

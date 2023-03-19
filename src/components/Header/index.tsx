@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import routes from 'routes';
-import Navigstion from 'components/UI/Navigation';
+import Navigation from 'components/UI/Navigation';
 
 import styles from './styles.module.scss';
 
@@ -16,7 +16,7 @@ export default class Header extends Component {
             ))}
           </Routes>
         </h2>
-        <Navigstion />
+        <Navigation />
       </header>
     );
   }
