@@ -5,8 +5,6 @@ import routes from 'routes';
 
 import styles from './App.module.scss';
 
-alert("Hello! Please check my work tomorrow, I didn't have time to do tests");
-
 class App extends Component {
   render() {
     return (

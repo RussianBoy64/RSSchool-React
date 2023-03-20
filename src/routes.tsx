@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Main from 'components/routes/Main';
-import About from 'components/routes/About/Index';
+import About from 'components/routes/About';
 import PageNotFound from 'components/routes/PageNotFound';
 
 export enum RoutePathes {
