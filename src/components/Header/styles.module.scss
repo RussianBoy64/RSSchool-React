@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 70px;
+
+  &__pageName {
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 500px) {
+  .header {
+    gap: 0.5rem;
+
+    &__pageName {
+      font-size: 1.2rem;
+    }
+  }
+}
