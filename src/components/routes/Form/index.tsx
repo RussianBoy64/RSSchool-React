@@ -39,7 +39,6 @@ export default class Form extends Component<unknown, IFormState> {
 
   private submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(this.state.inputs);
     const cardObject: Card = {};
     const checkedInputs = this.state.inputs.map((input) => {
       const formElement = this.state.form.current!;
@@ -82,7 +81,6 @@ export default class Form extends Component<unknown, IFormState> {
         isNotValid = !value;
         break;
       case InputTypes.photo:
-        console.log(value);
         isNotValid = !value;
         break;
       case InputTypes.agreement:
@@ -98,7 +96,10 @@ export default class Form extends Component<unknown, IFormState> {
     if (InputElement.name === InputTypes.agreement) {
       return `${InputElement.checked}`;
     } else if (InputElement.name === InputTypes.photo) {
-      return URL.createObjectURL(InputElement.files![0]);
+      let value = '';
+      if (InputElement.files && InputElement.files[0])
+        value = URL.createObjectURL(InputElement.files![0]);
+      return value;
     } else {
       return InputElement.value;
     }
