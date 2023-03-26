@@ -1,0 +1,59 @@
+@import '../../../../styles/colors';
+
+.wrapper {
+  display: grid;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label {
+  position: relative;
+  text-align: center;
+}
+
+.title {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.error {
+  font-size: 0.7rem;
+  color: $accent-light;
+  text-align: center;
+  overflow: hidden;
+  animation-name: showError;
+  animation-duration: 500ms;
+}
+
+.input {
+  position: absolute;
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.download {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  color: $primary-light;
+  background: $accent-dark;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@keyframes showError {
+  0% {
+    height: 0rem;
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+    height: 1.5rem;
+  }
+}
