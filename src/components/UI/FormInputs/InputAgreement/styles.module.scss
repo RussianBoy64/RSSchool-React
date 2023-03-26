@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.label {
+.wrapper {
   display: grid;
   align-items: center;
   gap: 0.5rem;
@@ -20,16 +20,23 @@
   animation-duration: 500ms;
 }
 
-.input {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid $accent-dark;
-  outline: none;
-  transition: all 500ms ease-in-out;
+.inputContaiter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.7rem;
 
   &_invalid {
-    background: $accent-light;
+    color: $accent-light;
   }
+}
+
+.input {
+  margin: 0;
 }
 
 @keyframes showError {

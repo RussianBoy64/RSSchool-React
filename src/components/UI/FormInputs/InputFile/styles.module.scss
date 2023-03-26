@@ -1,9 +1,14 @@
 @import '../../../../styles/colors';
 
-.label {
+.wrapper {
   display: grid;
   align-items: center;
   gap: 0.5rem;
+}
+
+.label {
+  position: relative;
+  text-align: center;
 }
 
 .title {
@@ -21,14 +26,23 @@
 }
 
 .input {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid $accent-dark;
-  outline: none;
-  transition: all 500ms ease-in-out;
+  position: absolute;
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+}
 
-  &_invalid {
-    background: $accent-light;
+.download {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  color: $primary-light;
+  background: $accent-dark;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
   }
 }
 

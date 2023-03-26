@@ -2,6 +2,9 @@ import React, { ComponentClass } from 'react';
 import InputDate from './InputDate';
 import InputName from './InputName';
 import InputSelect from './InputSelect';
+import InputPayment from './InputPayment';
+import InputAgreement from './InputAgreement';
+import InputFile from './InputFile';
 
 export enum InputTypes {
   name = 'name',
@@ -22,6 +25,7 @@ export interface IInputProps {
 
 export interface IFormInput extends IInputProps {
   inputComponent: ComponentClass<IInputProps>;
+  value: string;
 }
 
 export const FormInputs = [
@@ -35,7 +39,18 @@ export const FormInputs = [
   },
   {
     inputComponent: InputSelect,
-    reference: React.createRef<HTMLSelectElement>(),
     type: InputTypes.package,
+  },
+  {
+    inputComponent: InputPayment,
+    type: InputTypes.pay,
+  },
+  {
+    inputComponent: InputFile,
+    type: InputTypes.photo,
+  },
+  {
+    inputComponent: InputAgreement,
+    type: InputTypes.agreement,
   },
 ];

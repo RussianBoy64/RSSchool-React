@@ -14,6 +14,7 @@
 .error {
   font-size: 0.7rem;
   color: $accent-light;
+  text-align: center;
   overflow: hidden;
   animation-name: showError;
   animation-duration: 500ms;
