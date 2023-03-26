@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, LegacyRef } from 'react';
 import { IInputProps } from '../FormInputs';
 
 import styles from './styles.module.scss';
@@ -17,7 +17,7 @@ export default class InputName extends Component<IInputProps> {
           type="text"
           name={inputType}
           id={inputType}
-          ref={reference}
+          ref={reference as LegacyRef<HTMLInputElement>}
           placeholder="Enter your name"
           title="Name must start with a capital letter and not contain numbers, min 3 max 15 characters"
         />

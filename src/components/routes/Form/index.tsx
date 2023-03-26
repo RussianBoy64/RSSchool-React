@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import { FormInputs, IFormInput, InputTypes } from 'components/UI/FormInputs/FormInputs';
 import validateTextInputValue from 'helpers/validateTextInputValue';
 import validateDateInputValue from 'helpers/validateDateInputValue';
+import validatePackageInputValue from 'helpers/validatePackageInputValue';
 
 import styles from './styles.module.scss';
-
-enum Package {
-  info = 'Select packaging',
-  without = 'Without packaging',
-  standart = 'Standalone packing',
-  gift = 'Gift packaging',
-}
 
 enum Payment {
   cash = 'Cash',
@@ -18,7 +12,6 @@ enum Payment {
 }
 
 interface IFormState {
-  form: React.RefObject<HTMLFormElement>;
   inputs: IFormInput[];
 }
 
@@ -26,7 +19,6 @@ export default class Form extends Component<unknown, IFormState> {
   constructor(props: unknown) {
     super(props);
     this.state = {
-      form: React.createRef(),
       inputs: FormInputs.map((input) => {
         return {
           inputComponent: input.inputComponent,
@@ -68,6 +60,9 @@ export default class Form extends Component<unknown, IFormState> {
         case InputTypes.date:
           isNotValid = validateDateInputValue(inputElement.value);
           break;
+        case InputTypes.package:
+          isNotValid = validatePackageInputValue(inputElement.value);
+          break;
       }
     }
 
@@ -78,7 +73,7 @@ export default class Form extends Component<unknown, IFormState> {
     return (
       <main className={styles.main}>
         <h2 className={styles.pageTitle}>Delivery form</h2>
-        <form className={styles.form} onSubmit={this.submitHandler} ref={this.state.form}>
+        <form className={styles.form} onSubmit={this.submitHandler}>
           {this.state.inputs.map((inputData) => {
             const { inputComponent: Input, reference, inputType, isNotValid } = inputData;
             return (

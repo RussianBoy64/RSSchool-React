@@ -1,6 +1,7 @@
-import { ComponentClass } from 'react';
+import React, { ComponentClass } from 'react';
 import InputDate from './InputDate';
 import InputName from './InputName';
+import InputSelect from './InputSelect';
 
 export enum InputTypes {
   name = 'name',
@@ -11,8 +12,10 @@ export enum InputTypes {
   agreement = 'agreement',
 }
 
+type FormReference = React.RefObject<HTMLInputElement | HTMLSelectElement>;
+
 export interface IInputProps {
-  reference: React.RefObject<HTMLInputElement>;
+  reference: FormReference;
   inputType: InputTypes;
   isNotValid: boolean;
 }
@@ -22,6 +25,17 @@ export interface IFormInput extends IInputProps {
 }
 
 export const FormInputs = [
-  { inputComponent: InputName, type: InputTypes.name },
-  { inputComponent: InputDate, type: InputTypes.date },
+  {
+    inputComponent: InputName,
+    type: InputTypes.name,
+  },
+  {
+    inputComponent: InputDate,
+    type: InputTypes.date,
+  },
+  {
+    inputComponent: InputSelect,
+    reference: React.createRef<HTMLSelectElement>(),
+    type: InputTypes.package,
+  },
 ];

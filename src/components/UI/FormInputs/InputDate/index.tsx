@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, LegacyRef } from 'react';
 import { IInputProps } from '../FormInputs';
 
 import styles from './styles.module.scss';
@@ -17,7 +17,7 @@ export default class InputDate extends Component<IInputProps> {
           type="date"
           name={inputType}
           id={inputType}
-          ref={reference}
+          ref={reference as LegacyRef<HTMLInputElement>}
           title="Date not earlier than tomorrow"
         />
         {isNotValid && <span className={styles.error}>Date not earlier than tomorrow</span>}
