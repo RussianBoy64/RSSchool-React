@@ -3,7 +3,7 @@ import { IInputProps } from '../FormInputs';
 
 import styles from './styles.module.scss';
 
-export default class InputName extends Component<IInputProps> {
+export default class InputDate extends Component<IInputProps> {
   render() {
     const { reference, inputType, isNotValid } = this.props;
     const inputStyles = [styles.input];
@@ -14,18 +14,13 @@ export default class InputName extends Component<IInputProps> {
         <span className={styles.title}>{inputType}</span>
         <input
           className={inputStyles.join(' ')}
-          type="text"
+          type="date"
           name={inputType}
           id={inputType}
           ref={reference}
-          placeholder="Enter your name"
-          title="Name must start with a capital letter and not contain numbers, min 3 max 15 characters"
+          title="Date not earlier than tomorrow"
         />
-        {isNotValid && (
-          <span className={styles.error}>
-            Name must start with a capital letter and not contain numbers, min 3 max 15 characters
-          </span>
-        )}
+        {isNotValid && <span className={styles.error}>Date not earlier than tomorrow</span>}
       </label>
     );
   }

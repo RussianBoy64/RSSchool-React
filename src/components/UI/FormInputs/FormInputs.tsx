@@ -1,4 +1,5 @@
 import { ComponentClass } from 'react';
+import InputDate from './InputDate';
 import InputName from './InputName';
 
 export enum InputTypes {
@@ -20,4 +21,7 @@ export interface IFormInput extends IInputProps {
   inputComponent: ComponentClass<IInputProps>;
 }
 
-export const FormInputs = [{ inputComponent: InputName, type: InputTypes.name }];
+export const FormInputs = [
+  { inputComponent: InputName, type: InputTypes.name },
+  { inputComponent: InputDate, type: InputTypes.date },
+];
