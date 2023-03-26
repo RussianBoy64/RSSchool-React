@@ -1,0 +1,23 @@
+@import '../../styles/colors';
+
+.formCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 280px;
+  padding: 0.5em;
+  border: 2px solid $accent-dark;
+  border-radius: 0.5rem;
+
+  &__imgWrapper {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: contain;
+  }
+}

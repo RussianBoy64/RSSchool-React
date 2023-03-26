@@ -21,4 +21,16 @@
   padding: 0.5rem;
   border: 2px solid $accent-dark;
   border-radius: 0.5rem;
+
+  &__submitted {
+    font-weight: 600;
+    text-align: center;
+  }
+}
+
+.cardsWrapper {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 1rem;
 }

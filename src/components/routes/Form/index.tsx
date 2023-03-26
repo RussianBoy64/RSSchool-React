@@ -5,10 +5,17 @@ import validateTextInputValue from 'helpers/validateTextInputValue';
 import validateDateInputValue from 'helpers/validateDateInputValue';
 
 import styles from './styles.module.scss';
+import FormCard from 'components/FormCard';
+
+export interface Card {
+  [key: string]: string;
+}
 
 interface IFormState {
   form: React.RefObject<HTMLFormElement>;
   inputs: IFormInput[];
+  submitted: boolean;
+  cards: Card[];
 }
 
 export default class Form extends Component<unknown, IFormState> {
@@ -25,16 +32,20 @@ export default class Form extends Component<unknown, IFormState> {
           value: '',
         };
       }),
+      submitted: false,
+      cards: [],
     };
   }
 
   private submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log(this.state.inputs);
+    const cardObject: Card = {};
     const checkedInputs = this.state.inputs.map((input) => {
       const formElement = this.state.form.current!;
       const value = this.getInputValue(formElement[input.inputType]);
       const isNotValid = this.isInputNotValid(value, input.inputType);
+      cardObject[input.inputType] = value;
 
       return {
         ...input,
@@ -42,8 +53,16 @@ export default class Form extends Component<unknown, IFormState> {
         value: isNotValid ? '' : value,
       };
     });
+    const isFormValid = checkedInputs.every((input) => input.value);
+    const updatedCards = this.state.cards;
+    if (isFormValid) updatedCards.push(cardObject);
 
-    this.setState({ ...this.state, inputs: checkedInputs });
+    this.setState({
+      ...this.state,
+      inputs: checkedInputs,
+      submitted: isFormValid ? true : false,
+      cards: updatedCards,
+    });
   };
 
   private isInputNotValid = (value: string, inputType: InputTypes): boolean => {
@@ -79,13 +98,17 @@ export default class Form extends Component<unknown, IFormState> {
     if (InputElement.name === InputTypes.agreement) {
       return `${InputElement.checked}`;
     } else if (InputElement.name === InputTypes.photo) {
-      return InputElement.value;
+      return URL.createObjectURL(InputElement.files![0]);
     } else {
       return InputElement.value;
     }
   };
 
   componentDidUpdate() {
+    setTimeout(() => {
+      this.setState({ ...this.state, submitted: false });
+    }, 1000);
+
     const isFormValid = this.state.inputs.every((input) => input.value);
 
     if (isFormValid) {
@@ -134,7 +157,14 @@ export default class Form extends Component<unknown, IFormState> {
             );
           })}
           <button type="submit">Submit</button>
+          {this.state.submitted && <span className={styles.form__submitted}>Form submitted!</span>}
         </form>
+        <div className={styles.cardsWrapper}>
+          {this.state.cards.length > 0 &&
+            this.state.cards.map((card) => {
+              return <FormCard {...card} key={card[InputTypes.name]} />;
+            })}
+        </div>
       </main>
     );
   }

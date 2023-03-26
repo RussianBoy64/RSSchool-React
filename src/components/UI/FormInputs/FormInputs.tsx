@@ -25,7 +25,7 @@ export interface IInputProps {
 
 export interface IFormInput extends IInputProps {
   inputComponent: ComponentClass<IInputProps>;
-  value: string;
+  value: string | File | null;
 }
 
 export const FormInputs = [
