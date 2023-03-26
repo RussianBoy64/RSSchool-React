@@ -1,0 +1,24 @@
+@import '../../../styles/colors';
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pageTitle {
+  text-transform: uppercase;
+  color: $accent-light;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 300px;
+  padding: 0.5rem;
+  border: 2px solid $accent-dark;
+  border-radius: 0.5rem;
+}
