@@ -18,7 +18,7 @@ export default class ThumbnailPagination extends Component<IThumbnailPaginationP
 
           if (index === currentImage) itemStyle.push(styles.thumbnailPagination__item_active);
 
-          return <span className={itemStyle.join(' ')} key={index} />;
+          return <span className={itemStyle.join(' ')} key={index} data-testid="pagination" />;
         })}
       </div>
     );
