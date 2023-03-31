@@ -1,5 +1,3 @@
-import { Component } from 'react';
-
 import styles from './styles.module.scss';
 
 interface IThumbnailPaginationProps {
@@ -7,20 +5,22 @@ interface IThumbnailPaginationProps {
   images: string[];
 }
 
-export default class ThumbnailPagination extends Component<IThumbnailPaginationProps> {
-  render() {
-    const { currentImage, images } = this.props;
+const setPagintationItemStyle = (isActive: boolean): string => {
+  const itemStyle = [styles.thumbnailPagination__item];
 
-    return (
-      <div className={styles.thumbnailPagination}>
-        {images.map((_, index) => {
-          const itemStyle = [styles.thumbnailPagination__item];
+  if (isActive) itemStyle.push(styles.thumbnailPagination__item_active);
 
-          if (index === currentImage) itemStyle.push(styles.thumbnailPagination__item_active);
+  return itemStyle.join(' ');
+};
 
-          return <span className={itemStyle.join(' ')} key={index} data-testid="pagination" />;
-        })}
-      </div>
-    );
-  }
+export default function ThumbnailPagination({ currentImage, images }: IThumbnailPaginationProps) {
+  return (
+    <div className={styles.thumbnailPagination}>
+      {images.map((_, index) => {
+        const itemStyle = setPagintationItemStyle(index === currentImage);
+
+        return <span className={itemStyle} key={index} data-testid="pagination" />;
+      })}
+    </div>
+  );
 }

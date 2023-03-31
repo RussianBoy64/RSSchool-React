@@ -1,10 +1,12 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SearchBar from 'components/UI/SearchBar';
 import ProductCard from 'components/ProductCard';
+import { getInitialSearch, getInitialProducts } from 'helpers/localStorageHandlers';
+import fetchProducts from 'helpers/fetchProducts';
 
 import styles from './styles.module.scss';
 
-interface IProducts {
+export interface IProducts {
   limit: number;
   products: IProduct[];
   skip: number;
@@ -25,83 +27,70 @@ export interface IProduct {
   images: string[];
 }
 
-interface IMainState {
-  search: string;
-  products: IProduct[];
-}
+export default function Main() {
+  const [search, setSearch] = useState<string>(getInitialSearch);
+  const [products, setProducts] = useState<IProduct[]>(getInitialProducts);
+  const [productsToShow, setProductsToShow] = useState<IProduct[]>([]);
+  const searchRef = useRef(search);
+  const productsRef = useRef(products);
 
-export default class Main extends Component<unknown, IMainState> {
-  constructor(props: unknown) {
-    super(props);
-    this.state = {
-      search: '',
-      products: [],
+  const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setSearch(event.target.value);
+
+  const onMount = () => {
+    const onBeforeUnload = () => {
+      localStorage.setItem('searchValue', searchRef.current);
+      localStorage.setItem('products', JSON.stringify(productsRef.current));
     };
-  }
 
-  searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ ...this.state, search: event.target.value });
+    if (products.length === 0) fetchProducts(setProducts);
+
+    searchRef.current = search;
+    productsRef.current = products;
+
+    setProductsToShow(products);
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+
+    return () => {
+      localStorage.setItem('searchValue', searchRef.current);
+      localStorage.setItem('products', JSON.stringify(productsRef.current));
+
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
   };
 
-  async fetchProducts(): Promise<void> {
-    await fetch('https://dummyjson.com/products?limit=20')
-      .then((res) => res.json())
-      .then((products: IProducts) => this.setState({ products: products.products }));
-  }
-
-  async getProductsFromStorage(productsJSON: string): Promise<void> {
-    const products = await JSON.parse(productsJSON);
-    this.setState({ ...this.state, products });
-  }
-
-  componentDidMount() {
-    const search = localStorage.getItem('searchValue');
-    const products = localStorage.getItem('products');
-
-    if (search) this.setState({ ...this.state, search });
-
-    if (!products) {
-      this.fetchProducts();
-    } else {
-      this.getProductsFromStorage(products);
-    }
-
-    window.addEventListener('beforeunload', () =>
-      localStorage.setItem('searchValue', this.state.search)
-    );
-  }
-
-  componentWillUnmount() {
-    localStorage.setItem('searchValue', this.state.search);
-
-    if (this.state.products.length) {
-      localStorage.setItem('products', JSON.stringify(this.state.products));
-    }
-  }
-
-  render() {
-    const { search } = this.state;
-    let { products } = this.state;
+  const onUpdate = () => {
+    searchRef.current = search;
+    productsRef.current = products;
 
     if (search) {
-      products = products.filter((product) =>
-        Object.values(product).join('').toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      const filteredProducts = products.filter((product) =>
+        Object.values(product).join('').toLocaleLowerCase().includes(search.toLowerCase())
       );
-    }
 
-    return (
-      <main className={styles.main}>
-        <SearchBar searchValue={this.state.search} changeHandler={this.searchChangeHandler} />
-        {products.length ? (
-          <div className={styles.productList}>
-            {products.map((product) => (
-              <ProductCard product={product} key={product.id} />
-            ))}
-          </div>
-        ) : (
-          <p className={styles.notFound}>Products not found!</p>
-        )}
-      </main>
-    );
-  }
+      setProductsToShow(filteredProducts);
+    } else {
+      setProductsToShow(products);
+    }
+  };
+
+  useEffect(onMount, [products]);
+
+  useEffect(onUpdate, [search]);
+
+  return (
+    <main className={styles.main}>
+      <SearchBar searchValue={search} changeHandler={searchChangeHandler} />
+      {productsToShow.length ? (
+        <div className={styles.productList}>
+          {productsToShow.map((product) => (
+            <ProductCard product={product} key={product.id} />
+          ))}
+        </div>
+      ) : (
+        <p className={styles.notFound}>Products not found!</p>
+      )}
+    </main>
+  );
 }

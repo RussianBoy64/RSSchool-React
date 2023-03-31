@@ -1,5 +1,3 @@
-import { Component } from 'react';
-
 import styles from './styles.module.scss';
 
 interface ISearchBarProps {
@@ -7,42 +5,27 @@ interface ISearchBarProps {
   changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-interface ISearchBarState {
-  isInputHidden: boolean;
-}
+const getSearchBarStyle = (searchValue: string): string => {
+  const searchStyles = [styles.searchBar__input];
 
-export default class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
-  constructor(props: ISearchBarProps) {
-    super(props);
-    this.state = {
-      isInputHidden: true,
-    };
-  }
+  if (!searchValue) searchStyles.push(styles.searchBar__input_hidden);
 
-  setSearchBarStyle() {
-    const serchBArStyles = [styles.searchBar__input];
+  return searchStyles.join(' ');
+};
 
-    if (this.state.isInputHidden) serchBArStyles.push(styles.searchBar__input_hidden);
+export default function SearchBar({ searchValue, changeHandler }: ISearchBarProps) {
+  const serchBarStyles = getSearchBarStyle(searchValue);
 
-    return serchBArStyles.join(' ');
-  }
-
-  static getDerivedStateFromProps(props: ISearchBarProps) {
-    return props.searchValue ? { isInputHidden: false } : { isInputHidden: true };
-  }
-
-  render() {
-    return (
-      <label className={styles.searchBar}>
-        <input
-          className={this.setSearchBarStyle()}
-          id="searchBar"
-          type="text"
-          placeholder="Search"
-          value={this.props.searchValue}
-          onChange={this.props.changeHandler}
-        />
-      </label>
-    );
-  }
+  return (
+    <label className={styles.searchBar}>
+      <input
+        className={serchBarStyles}
+        id="searchBar"
+        type="text"
+        placeholder="Search"
+        value={searchValue}
+        onChange={changeHandler}
+      />
+    </label>
+  );
 }

@@ -1,15 +1,17 @@
-import { Component } from 'react';
+import { ReactNode } from 'react';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 
-export default class Layout extends Component<{ children: React.ReactNode }> {
-  render() {
-    return (
-      <>
-        <Header />
-        {this.props.children}
-        <Footer />
-      </>
-    );
-  }
+interface ILayoutProps {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: ILayoutProps) {
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
 }
