@@ -1,27 +1,28 @@
-import { Component, LegacyRef } from 'react';
-import { IInputProps } from '../FormInputs';
+import { InputProps } from '../FormInputs';
 
 import styles from './styles.module.scss';
 
-export default class InputDate extends Component<IInputProps> {
-  render() {
-    const { reference, inputType, isNotValid } = this.props;
-    const inputStyles = [styles.input];
-    if (isNotValid) inputStyles.push(styles.input_invalid);
+export default function InputDate({ name, register, error }: InputProps) {
+  const inputStyles = [styles.input];
+  const validation = {
+    required: 'Please enter delivery date',
+    validate: (value: string) =>
+      new Date(Date.now()) < new Date(value) || 'Date not earlier than today',
+  };
 
-    return (
-      <label className={styles.label}>
-        <span className={styles.title}>{inputType}</span>
-        <input
-          className={inputStyles.join(' ')}
-          type="date"
-          name={inputType}
-          id={inputType}
-          ref={reference as LegacyRef<HTMLInputElement>}
-          title="Date not earlier than tomorrow"
-        />
-        {isNotValid && <span className={styles.error}>Date not earlier than tomorrow</span>}
-      </label>
-    );
-  }
+  if (error.date) inputStyles.push(styles.input_invalid);
+  console.log(error.date);
+
+  return (
+    <label className={styles.label}>
+      <span className={styles.title}>{name}</span>
+      <input
+        className={inputStyles.join(' ')}
+        type="date"
+        {...register(name, validation)}
+        title="Date not earlier than tomorrow"
+      />
+      {error.date && <span className={styles.error}>{error.date.message}</span>}
+    </label>
+  );
 }
