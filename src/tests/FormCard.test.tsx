@@ -5,7 +5,7 @@ import FormCard from 'components/FormCard';
 const formCardData = {
   name: 'Vladimir',
   date: '29-10-1990',
-  package: 'Gift',
+  packaging: 'Gift',
   pay: 'Card',
   photo: '',
   agreement: 'true',

@@ -1,4 +1,4 @@
-import React, { ComponentClass } from 'react';
+import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import InputDate from './InputDate';
 import InputName from './InputName';
 import InputSelect from './InputSelect';
@@ -15,42 +15,35 @@ export enum InputTypes {
   agreement = 'agreement',
 }
 
-type FormReference = React.RefObject<HTMLInputElement | HTMLSelectElement>;
-
-export interface IInputProps {
-  reference: FormReference;
-  inputType: InputTypes;
-  isNotValid: boolean;
+export interface Inputs {
+  name: string;
+  date: string;
+  package: string;
+  pay: string;
+  photo: Blob[] | MediaSource[];
+  agreement: string;
 }
 
-export interface IFormInput extends IInputProps {
-  inputComponent: ComponentClass<IInputProps>;
-  value: string | File | null;
+export interface InputProps {
+  name: InputTypes;
+  register: UseFormRegister<Inputs>;
+  error: FieldErrors<Inputs>;
 }
+
+export const DefaultInputValues = {
+  [InputTypes.name]: '',
+  [InputTypes.date]: '',
+  [InputTypes.package]: '',
+  [InputTypes.pay]: '',
+  [InputTypes.photo]: [],
+  [InputTypes.agreement]: '',
+};
 
 export const FormInputs = [
-  {
-    inputComponent: InputName,
-    type: InputTypes.name,
-  },
-  {
-    inputComponent: InputDate,
-    type: InputTypes.date,
-  },
-  {
-    inputComponent: InputSelect,
-    type: InputTypes.package,
-  },
-  {
-    inputComponent: InputPayment,
-    type: InputTypes.pay,
-  },
-  {
-    inputComponent: InputFile,
-    type: InputTypes.photo,
-  },
-  {
-    inputComponent: InputAgreement,
-    type: InputTypes.agreement,
-  },
+  { InputComponent: InputName, name: InputTypes.name },
+  { InputComponent: InputDate, name: InputTypes.date },
+  { InputComponent: InputSelect, name: InputTypes.package },
+  { InputComponent: InputPayment, name: InputTypes.pay },
+  { InputComponent: InputFile, name: InputTypes.photo },
+  { InputComponent: InputAgreement, name: InputTypes.agreement },
 ];

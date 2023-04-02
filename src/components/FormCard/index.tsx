@@ -1,26 +1,18 @@
-import { Card } from 'components/routes/Form';
-import { InputTypes } from 'components/UI/FormInputs/FormInputs';
-import { Component } from 'react';
+import { ICard } from 'components/routes/Form';
 
 import styles from './styles.module.scss';
 
-export default class FormCard extends Component<Card> {
-  render() {
-    return (
-      <div className={styles.formCard}>
-        <div className={styles.formCard__imgWrapper}>
-          <img
-            className={styles.formCard__img}
-            src={this.props[InputTypes.photo]}
-            alt={`${this.props[InputTypes.photo]}`}
-          />
-        </div>
-        <span>Name: {this.props[InputTypes.name]}</span>
-        <span>Date: {this.props[InputTypes.date]}</span>
-        <span>Package: {this.props[InputTypes.package]}</span>
-        <span>Pay: {this.props[InputTypes.pay]}</span>
-        <span>Agreement: {this.props[InputTypes.agreement]}</span>
+export default function FormCard({ name, date, packaging, pay, photo, agreement }: ICard) {
+  return (
+    <div className={styles.formCard}>
+      <div className={styles.formCard__imgWrapper}>
+        <img className={styles.formCard__img} src={photo} alt={`${photo}`} />
       </div>
-    );
-  }
+      <span>Name: {name}</span>
+      <span>Date: {date}</span>
+      <span>Package: {packaging}</span>
+      <span>Pay: {pay}</span>
+      <span>Agreement: {`${agreement}`}</span>
+    </div>
+  );
 }

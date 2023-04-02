@@ -23,6 +23,7 @@ export default function InputPayment({ name, register, error }: InputProps) {
         <input
           className={styles.input}
           type="radio"
+          id={Payment.cash}
           {...register(name, validation)}
           value={Payment.cash}
         />
@@ -32,6 +33,7 @@ export default function InputPayment({ name, register, error }: InputProps) {
         <input
           className={styles.input}
           type="radio"
+          id={Payment.card}
           {...register(name, validation)}
           value={Payment.card}
         />

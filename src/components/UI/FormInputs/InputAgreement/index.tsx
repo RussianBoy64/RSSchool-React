@@ -1,31 +1,25 @@
-import { Component, LegacyRef } from 'react';
-import { IInputProps } from '../FormInputs';
+import { InputProps } from '../FormInputs';
 
 import styles from './styles.module.scss';
 
-export default class InputAgreement extends Component<IInputProps> {
-  render() {
-    const { reference, inputType, isNotValid } = this.props;
-    const labelStyles = [styles.label];
-    if (isNotValid) labelStyles.push(styles.label_invalid);
+export default function InputAgreement({ name, register, error }: InputProps) {
+  const labelStyles = [styles.label];
+  const validation = {
+    required: 'Agree required',
+  };
 
-    return (
-      <div className={styles.wrapper}>
-        <span className={styles.title}>{inputType}</span>
-        <div className={styles.inputContaiter}>
-          <input
-            className={styles.input}
-            type="checkbox"
-            name={inputType}
-            id={inputType}
-            ref={reference as LegacyRef<HTMLInputElement>}
-          />
-          <label className={labelStyles.join(' ')} htmlFor={inputType}>
-            I agree to the processing of personal data
-          </label>
-        </div>
-        {isNotValid && <span className={styles.error}>Choose payment type</span>}
+  if (error.agreement) labelStyles.push(styles.label_invalid);
+
+  return (
+    <div className={styles.wrapper}>
+      <span className={styles.title}>{name}</span>
+      <div className={styles.inputContaiter}>
+        <input className={styles.input} type="checkbox" id={name} {...register(name, validation)} />
+        <label className={labelStyles.join(' ')} htmlFor={name}>
+          I agree to the processing of personal data
+        </label>
       </div>
-    );
-  }
+      {error.agreement && <span className={styles.error}>{error.agreement.message}</span>}
+    </div>
+  );
 }
