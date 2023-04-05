@@ -7,9 +7,11 @@
   flex-grow: 1;
 }
 
-.productList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.charactersList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
