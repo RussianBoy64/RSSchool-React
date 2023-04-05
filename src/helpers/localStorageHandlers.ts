@@ -3,9 +3,3 @@ export const getInitialSearch = () => {
 
   return searchValue || '';
 };
-
-export const getInitialProducts = () => {
-  const productsFromStorage = localStorage.getItem('products');
-
-  return productsFromStorage ? JSON.parse(productsFromStorage) : [];
-};
