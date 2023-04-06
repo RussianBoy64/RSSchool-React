@@ -16,7 +16,7 @@ export default function CharacterCard({ character }: ICharacterCardProps) {
 
   return (
     <div className={styles.characterCard}>
-      <img src={jpg.image_url} alt={`${name} image`} />
+      <img className={styles.characterCard__img} src={jpg.image_url} alt={`${name} image`} />
       <div className={styles.description}>
         <span className={styles.description__name}>{name}</span>
 

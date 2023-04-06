@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 import SearchBar from 'components/UI/SearchBar';
 import CharacterCard from 'components/CharacterCard';
 import { getInitialSearch } from 'helpers/localStorageHandlers';
@@ -9,11 +9,16 @@ import styles from './styles.module.scss';
 export default function Main() {
   const [search, setSearch] = useState<string>(getInitialSearch);
   const [characters, setCharacters] = useState<ICharacters>(initialCharacters);
-
   const searchRef = useRef(search);
 
   const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
     setSearch(event.target.value);
+
+  const searchSubmitHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    fetchCharacters(search, setCharacters);
+  };
 
   const onBeforeUnload = () => {
     localStorage.setItem('searchValue', searchRef.current);
@@ -23,7 +28,7 @@ export default function Main() {
     console.log('Mount');
     searchRef.current = search;
 
-    fetchCharacters(setCharacters);
+    fetchCharacters(search, setCharacters);
 
     window.addEventListener('beforeunload', onBeforeUnload);
 
@@ -37,16 +42,6 @@ export default function Main() {
   const onSearchUpdate = () => {
     console.log('SearchUpdate');
     searchRef.current = search;
-
-    // if (search) {
-    //   const filteredProducts = products.filter((product) =>
-    //     Object.values(product).join('').toLocaleLowerCase().includes(search.toLowerCase())
-    //   );
-
-    //   setProductsToShow(filteredProducts);
-    // } else {
-    //   setProductsToShow(products);
-    // }
   };
 
   useEffect(onMount, []);
@@ -55,15 +50,19 @@ export default function Main() {
 
   return (
     <main className={styles.main}>
-      <SearchBar searchValue={search} changeHandler={searchChangeHandler} />
-      {search ? (
+      <SearchBar
+        searchValue={search}
+        changeHandler={searchChangeHandler}
+        submitHandler={searchSubmitHandler}
+      />
+      {characters.data.length ? (
         <div className={styles.charactersList}>
           {characters.data.map((character) => (
             <CharacterCard character={character} key={character.mal_id} />
           ))}
         </div>
       ) : (
-        <p className={styles.notFound}>Products not found!</p>
+        <p className={styles.notFound}>Characters not found!</p>
       )}
     </main>
   );

@@ -52,10 +52,13 @@ export const initialCharacters: ICharacters = {
 const LIMIT = 20;
 const API_URL = `https://api.jikan.moe/v4/characters?limit=${LIMIT}`;
 
-const fetchProducts = async (
+const fetchCharacters = async (
+  search: string,
   setCharacters: React.Dispatch<SetStateAction<ICharacters>>
 ): Promise<void> => {
-  await fetch(API_URL)
+  const queryParams = `&q=${search}`;
+
+  await fetch(API_URL + queryParams)
     .then((res) => res.json())
     .then((charactersData) => {
       const characters = {
@@ -66,4 +69,4 @@ const fetchProducts = async (
     });
 };
 
-export default fetchProducts;
+export default fetchCharacters;
