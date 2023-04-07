@@ -27,7 +27,7 @@ const SpikeSpiegel = {
 };
 
 it('ProductCard should render', () => {
-  render(<CharacterCard character={SpikeSpiegel} />);
+  render(<CharacterCard closeBackdropHandler={() => null} character={SpikeSpiegel} />);
 
   expect(screen.getByText(/Spike Spiegel/)).toBeInTheDocument();
   expect(screen.getByText(/44812/)).toBeInTheDocument();

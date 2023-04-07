@@ -1,14 +1,21 @@
 import { useState, useEffect, useRef, FormEvent } from 'react';
 import SearchBar from 'components/UI/SearchBar';
 import CharacterCard from 'components/CharacterCard';
+import Backdrop from 'components/UI/Backdrop';
+import CharacterInfo from 'components/CharacterInfo';
 import { getInitialSearch } from 'helpers/localStorageHandlers';
-import fetchCharacters, { ICharacters, initialCharacters } from 'helpers/fetchCharacters';
+import fetchCharacters, {
+  ICharacter,
+  ICharacters,
+  initialCharacters,
+} from 'helpers/fetchCharacters';
 
 import styles from './styles.module.scss';
 
 export default function Main() {
   const [search, setSearch] = useState<string>(getInitialSearch);
   const [characters, setCharacters] = useState<ICharacters>(initialCharacters);
+  const [characterInfo, setCharacterInfo] = useState<null | ICharacter>(null);
   const searchRef = useRef(search);
 
   const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -58,11 +65,20 @@ export default function Main() {
       {characters.data.length ? (
         <div className={styles.charactersList}>
           {characters.data.map((character) => (
-            <CharacterCard character={character} key={character.mal_id} />
+            <CharacterCard
+              character={character}
+              closeBackdropHandler={setCharacterInfo}
+              key={character.mal_id}
+            />
           ))}
         </div>
       ) : (
         <p className={styles.notFound}>Characters not found!</p>
+      )}
+      {characterInfo && (
+        <Backdrop closeBackdropHandler={setCharacterInfo}>
+          <CharacterInfo character={characterInfo} />
+        </Backdrop>
       )}
     </main>
   );
