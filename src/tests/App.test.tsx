@@ -25,8 +25,8 @@ describe('App should render', () => {
   it('Main page should render', () => {
     render(<Main />);
 
-    const searchBar = screen.getByPlaceholderText(/search/i);
-    const notFoundInfo = screen.getByText(/products not found/i);
+    const searchBar = screen.getByPlaceholderText(/character name/i);
+    const notFoundInfo = screen.getByText(/characters not found/i);
 
     expect(searchBar).toBeInTheDocument();
     expect(notFoundInfo).toBeInTheDocument();

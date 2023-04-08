@@ -17,6 +17,7 @@ export default function CharacterInfo({ character }: ICharacterInfoProps) {
     favorites,
   } = character;
 
+  const kanji = name_kanji || 'No info!';
   const aboutText = about ? `${about.substring(0, 170)}...` : 'No about info!';
 
   return (
@@ -34,7 +35,7 @@ export default function CharacterInfo({ character }: ICharacterInfoProps) {
         </div>
         <h4 className={styles.description__nameKanji}>
           <span className={styles.description__fieldTitle}>Kanji: </span>
-          {name_kanji}
+          {kanji}
         </h4>
         <p className={styles.description__about}>
           <span className={styles.description__fieldTitle}>

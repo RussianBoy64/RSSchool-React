@@ -54,18 +54,34 @@ const API_URL = `https://api.jikan.moe/v4/characters?limit=${LIMIT}`;
 
 const fetchCharacters = async (
   search: string,
-  setCharacters: React.Dispatch<SetStateAction<ICharacters>>
+  setCharacters: React.Dispatch<SetStateAction<ICharacters>>,
+  setIsLoading: React.Dispatch<SetStateAction<boolean>>,
+  setError: React.Dispatch<SetStateAction<null | Error>>
 ): Promise<void> => {
   const queryParams = `&q=${search}`;
 
+  setIsLoading(true);
+
   await fetch(API_URL + queryParams)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw Error(`${res.status}: ${res.statusText}`);
+      } else {
+        return res.json();
+      }
+    })
     .then((charactersData) => {
       const characters = {
         data: charactersData.data,
         pagination: charactersData.pagination,
       };
       setCharacters(characters);
+      setIsLoading(false);
+      setError(null);
+    })
+    .catch((error) => {
+      setError(error);
+      setIsLoading(false);
     });
 };
 

@@ -1,13 +1,13 @@
 @import '../../../styles/colors';
 
 .searchBar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 
   cursor: pointer;
-  overflow: hidden;
   transition: all 0.3s ease-in-out;
 
   &:hover {

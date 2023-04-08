@@ -1,9 +1,11 @@
 import { ChangeEvent, FormEvent } from 'react';
+import Loader from '../Loader';
 
 import styles from './styles.module.scss';
 
 interface ISearchBarProps {
   searchValue: string;
+  isLoading: boolean;
   changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
   submitHandler: (event: FormEvent<HTMLFormElement>) => void;
 }
@@ -16,7 +18,12 @@ const getInputStyle = (searchValue: string): string => {
   return inputStyles.join(' ');
 };
 
-export default function SearchBar({ searchValue, changeHandler, submitHandler }: ISearchBarProps) {
+export default function SearchBar({
+  searchValue,
+  isLoading,
+  changeHandler,
+  submitHandler,
+}: ISearchBarProps) {
   const inputStyles = getInputStyle(searchValue);
 
   return (
@@ -34,6 +41,7 @@ export default function SearchBar({ searchValue, changeHandler, submitHandler }:
       <button className={styles.searchBar__button} type="submit">
         Search
       </button>
+      {isLoading && <Loader />}
     </form>
   );
 }

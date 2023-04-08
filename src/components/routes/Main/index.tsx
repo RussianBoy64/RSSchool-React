@@ -16,6 +16,8 @@ export default function Main() {
   const [search, setSearch] = useState<string>(getInitialSearch);
   const [characters, setCharacters] = useState<ICharacters>(initialCharacters);
   const [characterInfo, setCharacterInfo] = useState<null | ICharacter>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<null | Error>(null);
   const searchRef = useRef(search);
 
   const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -24,7 +26,7 @@ export default function Main() {
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    fetchCharacters(search, setCharacters);
+    fetchCharacters(search, setCharacters, setIsLoading, setError);
   };
 
   const onBeforeUnload = () => {
@@ -35,7 +37,7 @@ export default function Main() {
     console.log('Mount');
     searchRef.current = search;
 
-    fetchCharacters(search, setCharacters);
+    fetchCharacters(search, setCharacters, setIsLoading, setError);
 
     window.addEventListener('beforeunload', onBeforeUnload);
 
@@ -59,10 +61,13 @@ export default function Main() {
     <main className={styles.main}>
       <SearchBar
         searchValue={search}
+        isLoading={isLoading}
         changeHandler={searchChangeHandler}
         submitHandler={searchSubmitHandler}
       />
-      {characters.data.length ? (
+      {error ? (
+        <p className={styles.notFound}>{error.message}</p>
+      ) : characters.data.length ? (
         <div className={styles.charactersList}>
           {characters.data.map((character) => (
             <CharacterCard
