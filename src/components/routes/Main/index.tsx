@@ -34,7 +34,6 @@ export default function Main() {
   };
 
   const onMount = () => {
-    console.log('Mount');
     searchRef.current = search;
 
     fetchCharacters(search, setCharacters, setIsLoading, setError);
@@ -49,7 +48,6 @@ export default function Main() {
   };
 
   const onSearchUpdate = () => {
-    console.log('SearchUpdate');
     searchRef.current = search;
   };
 

@@ -10,14 +10,13 @@ interface IBackdropProps {
 
 export default function Backdrop({ closeBackdropHandler, children }: IBackdropProps) {
   const onClickHandler: MouseEventHandler<HTMLDivElement> = (event) => {
-    console.log('click');
     if (event.target === event.currentTarget) {
       closeBackdropHandler(null);
     }
   };
 
   return (
-    <div className={styles.backdrop} onClick={onClickHandler}>
+    <div className={styles.backdrop} onClick={onClickHandler} data-testid="backdrop">
       {children}
     </div>
   );

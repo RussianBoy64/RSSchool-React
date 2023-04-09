@@ -18,7 +18,7 @@ export default function CharacterCard({ closeBackdropHandler, character }: IChar
   const onClickHandler = () => closeBackdropHandler(character);
 
   return (
-    <div className={styles.characterCard} onClick={onClickHandler}>
+    <div className={styles.characterCard} onClick={onClickHandler} data-testid="character">
       <img className={styles.characterCard__img} src={jpg.image_url} alt={`${name} image`} />
       <div className={styles.description}>
         <span className={styles.description__name}>{name}</span>
