@@ -1,0 +1,77 @@
+@import '../../../styles/colors';
+
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-position-x: -50px;
+
+    .searchBar__input {
+      width: 280px;
+      padding: 5px 30px 5px 10px;
+      background-position: -50px 4px;
+      border-radius: 1rem;
+    }
+  }
+
+  &__input {
+    width: 280px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 5px 30px 5px 10px;
+    background-color: transparent;
+    background-image: url('../../../assets/search.svg');
+    background-repeat: no-repeat;
+    background-position: -50px 4px;
+    background-size: 30px;
+    outline: none;
+    border: 2px solid $accent-dark;
+    border-radius: 1rem;
+    transition: width 0.3s ease-in-out, border-radius 0.1s ease-in-out,
+      background-position 0.3s ease-in-out;
+
+    &:focus {
+      width: 280px;
+      background-position: -50px 4px;
+      border-radius: 1rem;
+    }
+
+    &_hidden {
+      width: 0;
+      padding: 0px 25px 0px 10px;
+      background-position: 4px 4px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+
+  &__button {
+    font-weight: 600;
+    color: $primary-dark;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $accent-light;
+    }
+
+    &:active {
+      color: $accent-dark;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .searchBar {
+    flex-direction: column;
+  }
+}

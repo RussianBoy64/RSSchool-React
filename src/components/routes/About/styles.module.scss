@@ -1,0 +1,60 @@
+@import '../../../styles/colors';
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 800px;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, $accent-light 30%, $accent-dark);
+
+  &__img {
+    min-height: 500px;
+    background-image: url('../../../assets/photo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.5rem;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &__title {
+    font-size: 2rem;
+    color: $primary-light;
+  }
+
+  &__text {
+    font-weight: 300;
+  }
+}
+
+@media (max-width: 600px) {
+  .about {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 1rem 0.5rem;
+
+    &__img {
+      width: 200px;
+      min-height: 200px;
+    }
+  }
+
+  .info {
+    text-align: center;
+  }
+}
