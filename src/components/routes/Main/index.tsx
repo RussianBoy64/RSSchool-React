@@ -1,76 +1,44 @@
-import { useState, useEffect, useRef, FormEvent } from 'react';
+import { FormEvent } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks';
+import { setInputValue, setValueToSearch, setCharacterInfo } from 'redux/reducers/searchSlice';
+import { useGetCharactersByNameQuery } from 'services/animeApi';
 import SearchBar from 'components/UI/SearchBar';
 import CharacterCard from 'components/CharacterCard';
 import Backdrop from 'components/UI/Backdrop';
 import CharacterInfo from 'components/CharacterInfo';
-import { getInitialSearch } from 'helpers/localStorageHandlers';
-import fetchCharacters, {
-  ICharacter,
-  ICharacters,
-  initialCharacters,
-} from 'helpers/fetchCharacters';
 
 import styles from './styles.module.scss';
 
 export default function Main() {
-  const [search, setSearch] = useState<string>(getInitialSearch);
-  const [characters, setCharacters] = useState<ICharacters>(initialCharacters);
-  const [characterInfo, setCharacterInfo] = useState<null | ICharacter>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<null | Error>(null);
-  const searchRef = useRef(search);
+  const dispatch = useAppDispatch();
+  const { inputValue, valueToSearch, characterInfo } = useAppSelector((state) => state.search);
+  const { data, error, isFetching } = useGetCharactersByNameQuery(valueToSearch);
 
-  const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setSearch(event.target.value);
+  const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setInputValue(event.target.value));
+  };
 
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-
-    fetchCharacters(search, setCharacters, setIsLoading, setError);
+    dispatch(setValueToSearch());
   };
-
-  const onBeforeUnload = () => {
-    localStorage.setItem('searchValue', searchRef.current);
-  };
-
-  const onMount = () => {
-    searchRef.current = search;
-
-    fetchCharacters(search, setCharacters, setIsLoading, setError);
-
-    window.addEventListener('beforeunload', onBeforeUnload);
-
-    return () => {
-      localStorage.setItem('searchValue', searchRef.current);
-
-      window.removeEventListener('beforeunload', onBeforeUnload);
-    };
-  };
-
-  const onSearchUpdate = () => {
-    searchRef.current = search;
-  };
-
-  useEffect(onMount, []);
-
-  useEffect(onSearchUpdate, [search]);
 
   return (
     <main className={styles.main}>
       <SearchBar
-        searchValue={search}
-        isLoading={isLoading}
+        searchValue={inputValue}
+        isLoading={isFetching}
         changeHandler={searchChangeHandler}
         submitHandler={searchSubmitHandler}
       />
       {error ? (
-        <p className={styles.notFound}>{error.message}</p>
-      ) : characters.data.length ? (
+        <p className={styles.notFound}>{`${error}`}</p>
+      ) : data?.data.length ? (
         <div className={styles.charactersList}>
-          {characters.data.map((character) => (
+          {data.data.map((character) => (
             <CharacterCard
               character={character}
-              closeBackdropHandler={setCharacterInfo}
+              showCharacterModal={setCharacterInfo}
               key={character.mal_id}
             />
           ))}
