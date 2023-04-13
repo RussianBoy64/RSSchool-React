@@ -1,8 +1,8 @@
-import { ICard } from 'components/routes/Form';
+import { IDeliveryCard } from 'redux/reducers/formSlice';
 
 import styles from './styles.module.scss';
 
-export default function FormCard({ name, date, packaging, pay, photo, agreement }: ICard) {
+export default function FormCard({ name, date, packaging, pay, photo, agreement }: IDeliveryCard) {
   return (
     <div className={styles.formCard}>
       <div className={styles.formCard__imgWrapper}>

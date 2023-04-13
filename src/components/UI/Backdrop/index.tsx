@@ -1,17 +1,20 @@
-import { Dispatch, MouseEventHandler } from 'react';
-import { ICharacter } from 'helpers/fetchCharacters';
+import { MouseEventHandler } from 'react';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { useAppDispatch } from 'hooks/reduxHooks';
+import { ICharacter } from 'services/animeApi';
 
 import styles from './styles.module.scss';
 
 interface IBackdropProps {
-  closeBackdropHandler: Dispatch<React.SetStateAction<ICharacter | null>>;
+  closeBackdropHandler: ActionCreatorWithPayload<ICharacter | null, 'search/setCharacterInfo'>;
   children: React.ReactNode;
 }
 
 export default function Backdrop({ closeBackdropHandler, children }: IBackdropProps) {
+  const dispatch = useAppDispatch();
   const onClickHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target === event.currentTarget) {
-      closeBackdropHandler(null);
+      dispatch(closeBackdropHandler(null));
     }
   };
 

@@ -1,21 +1,23 @@
-import { Dispatch } from 'react';
-import { ICharacter } from 'helpers/fetchCharacters';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { useAppDispatch } from 'hooks/reduxHooks';
+import { ICharacter } from 'services/animeApi';
 
 import styles from './styles.module.scss';
 
 interface ICharacterCardProps {
-  closeBackdropHandler: Dispatch<React.SetStateAction<ICharacter | null>>;
+  showCharacterModal: ActionCreatorWithPayload<ICharacter | null, 'search/setCharacterInfo'>;
   character: ICharacter;
 }
 
-export default function CharacterCard({ closeBackdropHandler, character }: ICharacterCardProps) {
+export default function CharacterCard({ showCharacterModal, character }: ICharacterCardProps) {
+  const dispatch = useAppDispatch();
   const {
     images: { jpg },
     name,
     favorites,
   } = character;
 
-  const onClickHandler = () => closeBackdropHandler(character);
+  const onClickHandler = () => dispatch(showCharacterModal(character));
 
   return (
     <div className={styles.characterCard} onClick={onClickHandler} data-testid="character">

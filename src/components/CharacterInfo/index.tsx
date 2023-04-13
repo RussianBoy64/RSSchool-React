@@ -1,4 +1,4 @@
-import { ICharacter } from 'helpers/fetchCharacters';
+import { ICharacter } from 'services/animeApi';
 
 import styles from './styles.module.scss';
 
