@@ -1,0 +1,45 @@
+@import '../../../../styles/colors';
+
+.label {
+  display: grid;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.error {
+  font-size: 0.7rem;
+  color: $accent-light;
+  text-align: center;
+  overflow: hidden;
+  animation-name: showError;
+  animation-duration: 500ms;
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid $accent-dark;
+  outline: none;
+  transition: all 500ms ease-in-out;
+
+  &_invalid {
+    background: $accent-light;
+  }
+}
+
+@keyframes showError {
+  0% {
+    height: 0rem;
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+    height: 1.5rem;
+  }
+}

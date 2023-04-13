@@ -1,0 +1,147 @@
+@import '../../styles/colors';
+
+.characterInfo {
+  &__container {
+    display: flex;
+    gap: 1rem;
+    width: 80%;
+    max-width: 800px;
+    height: fit-content;
+    padding: 1rem;
+    background-color: $accent-dark;
+    border-radius: 1rem;
+    opacity: 0;
+    animation-name: showCharacterInfo;
+    animation-delay: 300ms;
+    animation-duration: 500ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  &__img {
+    border-radius: 1rem;
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    color: $primary-dark;
+  }
+}
+
+.description {
+  &__name {
+    font-size: 2rem;
+    font-weight: 600;
+    color: $primary-light;
+  }
+
+  &__nameKanji {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $primary-light;
+  }
+
+  &__id {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__heart {
+    margin-right: 0.5rem;
+    color: $accent-light;
+  }
+
+  &__link {
+    display: inline-block;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    background-color: $accent-light;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $primary-light;
+    }
+
+    &:active {
+      color: $primary-dark;
+    }
+  }
+
+  &__about {
+    width: 100%;
+    color: $primary-light;
+    font-weight: 300;
+    font-style: italic;
+    white-space: break-spaces;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__fieldTitle {
+    color: $primary-dark;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+@media (max-width: 700px) {
+  .characterInfo {
+    &__container {
+      width: 95%;
+    }
+  }
+
+  .description {
+    &__name {
+      font-size: 1.5rem;
+    }
+
+    &__nameKanji {
+      font-size: 0.8rem;
+    }
+
+    &__about {
+      font-size: 0.8rem;
+    }
+
+    &__link {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .characterInfo {
+    &__container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__img {
+      width: 100px;
+      height: fit-content;
+    }
+
+    &__description {
+      align-items: center;
+      text-align: center;
+    }
+  }
+}
+
+@keyframes showCharacterInfo {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
