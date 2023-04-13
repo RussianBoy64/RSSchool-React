@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks';
+import { IDeliveryCard, addDeliveryCard, setIsFormSubmited } from 'redux/reducers/formSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {
   DefaultInputValues,
@@ -10,18 +12,10 @@ import FormCard from 'components/FormCard';
 
 import styles from './styles.module.scss';
 
-export interface ICard {
-  name: string;
-  date: string;
-  packaging: string;
-  pay: string;
-  photo: string;
-  agreement: string;
-}
-
 export default function Form() {
-  const [deliveryCards, setDelivaryCards] = useState<ICard[]>([]);
-  const [isFormSubmited, setIsFormSubmited] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { isFormSubmited, deliveryCards } = useAppSelector((state) => state.form);
+
   const {
     register,
     handleSubmit,
@@ -32,7 +26,7 @@ export default function Form() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const cardData: ICard = {
+    const cardData: IDeliveryCard = {
       name: data.name,
       date: data.date,
       packaging: data.package,
@@ -42,13 +36,13 @@ export default function Form() {
     };
 
     reset(DefaultInputValues);
-    setIsFormSubmited(true);
-    setDelivaryCards([...deliveryCards, cardData]);
+    dispatch(setIsFormSubmited(true));
+    dispatch(addDeliveryCard(cardData));
   };
 
   useEffect(() => {
     const submitedTimer = setTimeout(() => {
-      setIsFormSubmited(false);
+      dispatch(setIsFormSubmited(false));
     }, 1000);
 
     return () => {
