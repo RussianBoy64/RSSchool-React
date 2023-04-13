@@ -1,4 +1,7 @@
 import { screen, render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
+import { setCharacterInfo } from 'redux/reducers/searchSlice';
 
 import CharacterCard from 'components/CharacterCard';
 
@@ -27,7 +30,11 @@ const SpikeSpiegel = {
 };
 
 it('ProductCard should render', () => {
-  render(<CharacterCard closeBackdropHandler={() => null} character={SpikeSpiegel} />);
+  render(
+    <Provider store={store}>
+      <CharacterCard showCharacterModal={setCharacterInfo} character={SpikeSpiegel} />
+    </Provider>
+  );
 
   expect(screen.getByText(/Spike Spiegel/)).toBeInTheDocument();
   expect(screen.getByText(/44812/)).toBeInTheDocument();

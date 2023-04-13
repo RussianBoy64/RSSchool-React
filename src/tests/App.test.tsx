@@ -1,5 +1,7 @@
 import { screen, render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 
 import App from 'App';
 import Main from 'components/routes/Main';
@@ -11,7 +13,9 @@ describe('App should render', () => {
   it('Layout should render', () => {
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -23,7 +27,11 @@ describe('App should render', () => {
   });
 
   it('Main page should render', () => {
-    render(<Main />);
+    render(
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    );
 
     const searchBar = screen.getByPlaceholderText(/character name/i);
     const notFoundInfo = screen.getByText(/characters not found/i);
@@ -43,7 +51,11 @@ describe('App should render', () => {
   });
 
   it('Form page should render', () => {
-    render(<Form />);
+    render(
+      <Provider store={store}>
+        <Form />
+      </Provider>
+    );
 
     const authorName = screen.getByRole('heading', { level: 2 });
     const authorInfo = screen.getByText(/Delivery form/i);
